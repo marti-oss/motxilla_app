@@ -2,7 +2,7 @@ import 'package:Motxilla/login.dart';
 import 'package:Motxilla/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:Motxilla/utils/fonts.dart';
-import 'perfil.dart';
+import 'menu.dart';
 
 class Barra extends StatefulWidget {
   static String tag = '/EGNavigationScreen';
@@ -13,7 +13,7 @@ class Barra extends StatefulWidget {
 
 class BarraState extends State<Barra> {
   var _selectedIndex = 0;
-  var _pages = [Perfil(), Login()];
+  var _pages = [Menu(), Login()];
   //var _pages = [Home(), Search(), Tienda(), Perfil()];
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -36,8 +36,8 @@ class BarraState extends State<Barra> {
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: "Perfil",
+              icon: Icon(Icons.home),
+              label: "Inici",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.login),

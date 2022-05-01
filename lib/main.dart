@@ -1,4 +1,4 @@
-import 'package:Motxilla/perfil.dart';
+import 'package:Motxilla/menu.dart';
 import 'package:flutter/material.dart';
 import 'barra.dart';
 import 'login.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         'login': (BuildContext context) => Login(),
         'transition': (BuildContext context) => Transition(),
-        'perfil': (BuildContext context) => Perfil(),
+        'perfil': (BuildContext context) => Menu(),
         'barra': (BuildContext context) => Barra()
       },
     );
