@@ -132,7 +132,7 @@ class LoginState extends State<Login> {
                             toast(("Rellenar Campos"), bgColor: Colors.red);
                           }
                           else {
-                            Navigator.pushNamed(context, "transition");
+                            Navigator.pushNamed(context, "barra");
                           }
                         }, child: Text("Login")).paddingOnly(top: 16, bottom: 16),
                       ]
