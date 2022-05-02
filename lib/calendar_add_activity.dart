@@ -32,6 +32,11 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
     if (widget.activity == null){
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 2));
+    } else {
+      final activity = widget.activity!;
+      titleController.text = activity.title;
+      fromDate = activity.from;
+      toDate = activity.to;
     }
   }
 
@@ -61,7 +66,7 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
 
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, color: Colors.white),
+        child: widget.activity != null ? Icon(Icons.check,color: Colors.white) : Icon(Icons.add, color: Colors.white),
         backgroundColor: Color.fromRGBO(182, 218, 7, 0.658 ),
         onPressed: () {
           saveForm();
@@ -223,8 +228,15 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
           from: fromDate,
           to: toDate,
           isAllDay: false);
+
+      final isEditing = widget.activity != null;
       final provider = Provider.of<ActivityProvider>(context, listen: false);
-      provider.addActivity(activity);
+      if (isEditing) {
+        provider.editActivity(activity, widget.activity!);
+
+      } else {
+        provider.addActivity(activity);
+      }
     }
 
   }

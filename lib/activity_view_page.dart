@@ -1,9 +1,12 @@
 
+import 'package:Motxilla/calendar_add_activity.dart';
 import 'package:Motxilla/utils/dates.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'activity.dart';
+
+bool isExpanded = false;
 
 class ActivityViewPage extends StatelessWidget {
   final Activity activity;
@@ -16,6 +19,37 @@ class ActivityViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color.fromRGBO(182, 218, 7, 0.658 ), Color.fromRGBO(26, 156, 255, 0.455)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  stops: [0.0, 0.8],
+                  tileMode: TileMode.clamp,
+                )
+            )
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit),
+            tooltip: "Edit",
+            onPressed: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => CalendarAddActivity(activity: activity)
+                )
+            )
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            tooltip: "Sortir",
+            onPressed: (){
+              Navigator.pushNamed(context, "login");
+            },
+          )
+        ],
+      ),
       body: ListView(
         padding: EdgeInsets.all(32),
         children: [

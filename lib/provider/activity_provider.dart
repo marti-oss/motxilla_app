@@ -20,4 +20,11 @@ class ActivityProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void editActivity(Activity newActivity, Activity oldActivity) {
+    final index = _activities.indexOf(oldActivity);
+    _activities[index] = newActivity;
+
+    notifyListeners();
+  }
 }

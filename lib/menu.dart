@@ -1,3 +1,4 @@
+import 'package:Motxilla/utils/topBarWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,7 +20,7 @@ class MenuState extends State<Menu> {
   final List<OptionData> menu = [
     OptionData(Icons.people, 'Equip', Colors.indigoAccent, "login"),
     OptionData(Icons.emoji_people, 'Perfil', Colors.orangeAccent, "login" ),
-    OptionData(Icons.calendar_today, 'Calendari', Colors.redAccent.shade400, "login"),
+    OptionData(Icons.calendar_today, 'Calendari', Colors.redAccent.shade400, "calendar"),
     OptionData(Icons.format_list_bulleted_rounded, 'Repositori', Colors.lightGreenAccent, "login"),
   ];
 
@@ -73,23 +74,26 @@ class MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scrollbar(
-        thickness: 3,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              _textHeader(),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: _buttonsIcons()
-              ),
-            ],
+    return Scaffold(
+      appBar: TopNavigationBar(),
+      body: Container(
+        child: Scrollbar(
+          thickness: 3,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                _textHeader(),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: _buttonsIcons()
+                ),
+              ],
+            )
           )
         )
-      )
 
+      ),
     );
   }
 

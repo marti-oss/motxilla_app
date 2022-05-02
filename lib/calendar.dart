@@ -1,4 +1,5 @@
 import 'package:Motxilla/utils/calendarWidget.dart';
+import 'package:Motxilla/utils/topBarWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -13,6 +14,7 @@ class CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: TopNavigationBar(),
       body: CalendarWidget(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.white),

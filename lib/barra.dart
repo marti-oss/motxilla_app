@@ -1,9 +1,11 @@
 import 'package:Motxilla/login.dart';
 import 'package:Motxilla/utils/images.dart';
+import 'package:Motxilla/utils/topBarWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:Motxilla/utils/fonts.dart';
 import 'calendar.dart';
 import 'menu.dart';
+import 'utils/topBarWidget.dart';
 
 class Barra extends StatefulWidget {
   static String tag = '/EGNavigationScreen';
@@ -84,7 +86,7 @@ class BarraState extends State<Barra> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _createTopNavigationBar(),
+        //appBar: TopNavigationBar(),
         body: Center(child: _pages.elementAt(_selectedIndex)),
         bottomNavigationBar: _createBottomNavigationBar()
     );
