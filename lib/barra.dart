@@ -2,6 +2,7 @@ import 'package:Motxilla/login.dart';
 import 'package:Motxilla/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:Motxilla/utils/fonts.dart';
+import 'calendar.dart';
 import 'menu.dart';
 
 class Barra extends StatefulWidget {
@@ -13,7 +14,7 @@ class Barra extends StatefulWidget {
 
 class BarraState extends State<Barra> {
   var _selectedIndex = 0;
-  var _pages = [Menu(), Login()];
+  var _pages = [Menu(), Calendar()];
   //var _pages = [Home(), Search(), Tienda(), Perfil()];
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -40,8 +41,8 @@ class BarraState extends State<Barra> {
               label: "Inici",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.login),
-              label: "LogIn",
+              icon: Icon(Icons.calendar_today),
+              label: "Calendari",
             )
           ],
           fixedColor: Colors.black,
