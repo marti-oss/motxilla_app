@@ -49,6 +49,19 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color.fromRGBO(182, 218, 7, 0.658 ), Color.fromRGBO(26, 156, 255, 0.455)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  stops: [0.0, 0.8],
+                  tileMode: TileMode.clamp,
+                )
+            )
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(12),
         child: Form(
