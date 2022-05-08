@@ -15,16 +15,10 @@ class ListPage extends StatefulWidget {
 }
 
 List equips = [
-  {'name': 'John', 'group': 'Team A'},
-  {'name': 'Will', 'group': 'Team B'},
-  {'name': 'Beth', 'group': 'Team A'},
-  {'name': 'Miranda', 'group': 'Team B'},
-  {'name': 'Mike', 'group': 'Team C'},
-  {'name': 'Danny', 'group': 'Team C'},
-  {'name': 'P', 'group': 'Team C'},
-  {'name': 'K', 'group': 'Team C'},
-  {'name': 'G', 'group': 'Team C'},
-  {'name': 'Q', 'group': 'Team C'},
+  {'name': 'Campaments'},
+  {'name': 'Llops'},
+  {'name': 'Formigues'},
+  {'name': 'Llangostes'},
 ];
 
 List nens = [

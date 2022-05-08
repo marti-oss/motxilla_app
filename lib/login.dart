@@ -1,3 +1,4 @@
+import 'package:Motxilla/menu.dart';
 import 'package:Motxilla/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -132,7 +133,9 @@ class LoginState extends State<Login> {
                             toast(("Rellenar Campos"), bgColor: Colors.red);
                           }
                           else {
-                            Navigator.pushNamed(context, "barra");
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Menu())
+                            );
                           }
                         }, child: Text("Login")).paddingOnly(top: 16, bottom: 16),
                       ]

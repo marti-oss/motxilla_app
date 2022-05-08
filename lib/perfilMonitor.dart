@@ -1,3 +1,4 @@
+import 'package:Motxilla/configuracio.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -87,7 +88,9 @@ class PerfilMonitorState extends State<PerfilMonitor> {
             icon: Icon(Icons.settings),
             tooltip: "Configuració",
             onPressed: (){
-              Navigator.pushNamed(context, "login");
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context)=> Configuracio())
+              );
             },
           )
         ]
