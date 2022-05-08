@@ -1,5 +1,6 @@
 import 'package:Motxilla/menu.dart';
 import 'package:Motxilla/provider/activity_provider.dart';
+import 'package:Motxilla/team_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'barra.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
             'transition': (BuildContext context) => Transition(),
             'perfil': (BuildContext context) => Menu(),
             'barra': (BuildContext context) => Barra(),
-            'calendar': (BuildContext context) => Calendar()
+            'calendar': (BuildContext context) => Calendar(),
+            'listequip': (BuildContext context) => ListPage(title: "Equips"),
           },
         ),
       )
