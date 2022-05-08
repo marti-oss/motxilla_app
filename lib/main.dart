@@ -1,4 +1,5 @@
 import 'package:Motxilla/menu.dart';
+import 'package:Motxilla/perfilMonitor.dart';
 import 'package:Motxilla/provider/activity_provider.dart';
 import 'package:Motxilla/team_list.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
             'barra': (BuildContext context) => Barra(),
             'calendar': (BuildContext context) => Calendar(),
             'listequip': (BuildContext context) => ListPage(title: "Equips"),
-            'enviarEmail': (BuildContext context) => EmailPage("hola")
+            'enviarEmail': (BuildContext context) => EmailPage("hola"),
+            'perfilMonitor': (BuildContext context) => PerfilMonitor()
           },
         ),
       )
