@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'barra.dart';
 import 'calendar.dart';
+import 'email_page.dart';
 import 'login.dart';
 import 'transition.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
             'barra': (BuildContext context) => Barra(),
             'calendar': (BuildContext context) => Calendar(),
             'listequip': (BuildContext context) => ListPage(title: "Equips"),
+            'enviarEmail': (BuildContext context) => EmailPage("hola")
           },
         ),
       )

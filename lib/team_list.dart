@@ -1,3 +1,4 @@
+import 'package:Motxilla/perfilNen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -85,9 +86,16 @@ class ListPageState extends State<ListPage> {
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward),
                   onPressed: () {
-                    Navigator.of(context).push(
+                    if (categories == nens){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => PerfilNen())
+                      );
+                    }
+                    else {
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => ListPage(title:"Nens"))
-                    );
+                      );
+                    }
                   },
                 ),
               )

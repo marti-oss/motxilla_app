@@ -21,7 +21,7 @@ class MenuState extends State<Menu> {
     OptionData(Icons.people, 'Equip', Colors.indigoAccent, "listequip"),
     OptionData(Icons.emoji_people, 'Perfil', Colors.orangeAccent, "login" ),
     OptionData(Icons.calendar_today, 'Calendari', Colors.redAccent.shade400, "calendar"),
-    OptionData(Icons.format_list_bulleted_rounded, 'Repositori', Colors.lightGreenAccent, "login"),
+    OptionData(Icons.format_list_bulleted_rounded, 'Repositori', Colors.lightGreenAccent, "enviarEmail"),
   ];
 
   Widget _textHeader() {
