@@ -1,14 +1,55 @@
+import 'dart:convert';
+
+import 'package:Motxilla/Resp.dart';
 import 'package:Motxilla/login.dart';
 import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
-import 'package:nb_utils/nb_utils.dart';class Configuracio extends StatefulWidget {
+class Configuracio extends StatefulWidget {
 
   @override
   ConfiguracioState createState() => ConfiguracioState();
 }
 
+String token = '';
+String actual = '';
+String nova = '';
+
 class ConfiguracioState extends State<Configuracio> {
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init()async{
+    final storage2 = new FlutterSecureStorage();
+    token = (await storage2.read(key: 'jwt'))!;
+  }
+
+  Future<Resp> canviarContrasenya() async {
+    var map = new Map<String,dynamic>();
+    map['actual'] = actual;
+    map['nova'] = nova;
+    final response = await http.post(
+      Uri.parse("https://motxilla-api.herokuapp.com/contrasenya"),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      body: map
+    );
+    if (response.statusCode == 200){
+      return Resp.fromJson(jsonDecode(response.body));
+    }
+    else {
+      throw Exception('Failed to load response');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,10 +93,7 @@ class ConfiguracioState extends State<Configuracio> {
                             color: Colors.black ),
                         keyboardType: TextInputType.text,
                         onChanged: (newValue) {
-                          /*
-                          mail = newValue;
-                          correct_mail = true;
-                          */
+                          actual = newValue;
                           setState(() {});
                         },
                         decoration: InputDecoration(
@@ -78,10 +116,7 @@ class ConfiguracioState extends State<Configuracio> {
                             color: Colors.black ),
                         keyboardType: TextInputType.text,
                         onChanged: (newValue) {
-                          /*
-                          mail = newValue;
-                          correct_mail = true;
-                          */
+                          nova = newValue;
                           setState(() {});
                         },
                         decoration: InputDecoration(
@@ -103,9 +138,25 @@ class ConfiguracioState extends State<Configuracio> {
                           ),
                           icon: Icon(Icons.check, size: 18),
                           onPressed: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context)=> Login())
-                            );
+                            canviarContrasenya().then((respuesta) async {
+                              if (nova=="" || actual == ""){
+                                setState(() {});
+                                toast(("Rellenar Campos"), bgColor: Colors.red);
+                              }
+                              else {
+                                if (respuesta.success == false) {
+                                  setState(() {});
+                                  toast(
+                                      "Dades incorrectes", bgColor: Colors.red);
+                                } else {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => Login())
+                                  );
+                                }
+                              }
+                            });
+
                           },
                         )
                     ).paddingTop(10)

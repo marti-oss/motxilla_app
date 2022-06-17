@@ -14,7 +14,24 @@ class CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: AppBar(
+        flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color.fromRGBO(182, 218, 7, 0.658 ), Color.fromRGBO(26, 156, 255, 0.455)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  stops: [0.0, 0.8],
+                  tileMode: TileMode.clamp,
+                )
+            )
+        ),
+        title: Text("Calendari"),
+        actions: [
+
+        ],
+
+      ),
       body: CalendarWidget(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.white),

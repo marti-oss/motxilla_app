@@ -3,13 +3,13 @@ import 'package:nb_utils/nb_utils.dart';
 
 class EmailPage extends StatefulWidget{
   @override
-  final String teamId;
+  final int teamId;
   EmailPage(this.teamId);
   EmailPageState createState() => EmailPageState(teamId);
 }
 
 class EmailPageState extends State<EmailPage> {
-  late final String teamId;
+  late final int teamId;
   EmailPageState(this.teamId);
   FocusNode asuntoNode = FocusNode();
   FocusNode descripcionNode = FocusNode();

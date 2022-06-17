@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Menu extends StatefulWidget {
-  static String tag = '/EGProfileScreen';
+  //static String tag = '/EGProfileScreen';
 
   @override
   MenuState createState() => MenuState();
@@ -96,5 +96,4 @@ class MenuState extends State<Menu> {
       ),
     );
   }
-
 }

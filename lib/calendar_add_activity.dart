@@ -72,6 +72,10 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
                 buildTitle(),
                 SizedBox(height: 12),
                 buildDateTimePickers(),
+                SizedBox(height: 12),
+                buildObjective(),
+                buildDescripcio()
+
 
               ]
           )
@@ -94,6 +98,31 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
       decoration: InputDecoration(
           border: UnderlineInputBorder(),
           hintText: 'Afegir Títol'
+      ),
+      onFieldSubmitted: (_) {},
+      controller: titleController,
+      validator: (title) => title != null && title.isEmpty ? 'Títol no pot se buit' : null,
+    );
+  }
+  Widget buildObjective() {
+    return TextFormField(
+      style: TextStyle(fontSize: 24),
+      decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText: 'Afegir Objectiu'
+      ),
+      onFieldSubmitted: (_) {},
+      controller: titleController,
+      validator: (title) => title != null && title.isEmpty ? 'Títol no pot se buit' : null,
+    );
+  }
+
+  Widget buildDescripcio() {
+    return TextFormField(
+      style: TextStyle(fontSize: 24),
+      decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText: 'Afegir Descripcio'
       ),
       onFieldSubmitted: (_) {},
       controller: titleController,

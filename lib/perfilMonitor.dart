@@ -1,12 +1,86 @@
+import 'dart:convert';
+
+import 'package:Motxilla/Resp.dart';
 import 'package:Motxilla/configuracio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:http/http.dart' as http;
 
 class PerfilMonitor extends StatefulWidget{
   @override
   PerfilMonitorState createState() => PerfilMonitorState();
 }
+
+
+String token = '';
+String nom = '';
+String cognom1 = '';
+String cognom2 = '';
+int? llicencia = null;
+String targetaSanitaria = '';
+String email = '';
+String dni = '';
+
+
+
 class PerfilMonitorState extends State<PerfilMonitor> {
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async{
+    final storage2 = new FlutterSecureStorage();
+    token = (await storage2.read(key: 'jwt'))!;
+    getIdMonitorAutentificat().then((response) async {
+      var idMonitor = response.list![0]['id'];
+        getMonitor(idMonitor).then((resposta) async {
+          nom = resposta.data!['nom'];
+          cognom1 = resposta.data!['cognom1'];
+          cognom2 = resposta.data!['cognom2'] == null ? '': resposta.data!['cognom2'];
+          llicencia = resposta.data!['llicencia'] == null ? '': resposta.data!['llicencia'];
+          targetaSanitaria = resposta.data!['targetaSanitaria'] == null ? '': resposta.data!['targetaSanitaria'];
+          email = resposta.data!['email'];
+          dni = resposta.data!['dni'];
+        });
+      setState(() {});
+    });
+  }
+
+  Future<Resp> getIdMonitorAutentificat() async {
+    final response = await http.get(
+      Uri.parse('https://motxilla-api.herokuapp.com/tokenid'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return Resp.fromJson2(json);
+    } else {
+      throw Exception('Failed to load response');
+    }
+  }
+
+  Future<Resp> getMonitor(int id) async {
+    final response = await http.get(
+        Uri.parse('https://motxilla-api.herokuapp.com/monitors/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        }
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return Resp.fromJson(json);
+    } else {
+      throw Exception('Failed to load response');
+    }
+  }
+
+
   Widget _boxInfo(field, info){
     return Container(
       child: Row(
@@ -100,7 +174,7 @@ class PerfilMonitorState extends State<PerfilMonitor> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Martí Serra',
+            Text(nom +' ' +cognom1,
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold
@@ -112,17 +186,17 @@ class PerfilMonitorState extends State<PerfilMonitor> {
                 fontWeight: FontWeight.bold
             )),
             5.height,
-            _boxInfo("Nom","Martí"),
+            _boxInfo("Nom",nom),
             5.height,
-            _boxInfo("Cognoms","Serra" + " " + "Aguilera"),
+            _boxInfo("Cognoms",cognom1 + " " + cognom2),
             5.height,
-            _boxInfo("DNI","4797****k"),
+            _boxInfo("DNI",dni),
             5.height,
-            _boxInfo("Llicència","12345567"),
+            _boxInfo("Llicència",llicencia.toString()),
             5.height,
-            _boxInfo("Targeta Sanitària","SEAG 0 990126 003"),
+            _boxInfo("Targeta Sanitària",targetaSanitaria),
             5.height,
-            _boxInfo("Equips","Campaments"),
+            _boxInfo("Email",email),
             5.height,
           ],
         ),

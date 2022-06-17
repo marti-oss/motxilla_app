@@ -40,7 +40,6 @@ class TransitionState extends State<Transition> with TickerProviderStateMixin {
       final storage2 = new FlutterSecureStorage();
       token = await storage2.read(key: 'jwt');
       print(token);
-      print('a');
       finish(context);
       (token == null)
           ? Navigator.pushNamed(context, "login")
