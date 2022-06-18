@@ -27,9 +27,6 @@ class CalendarState extends State<Calendar> {
             )
         ),
         title: Text("Calendari"),
-        actions: [
-
-        ],
 
       ),
       body: CalendarWidget(),

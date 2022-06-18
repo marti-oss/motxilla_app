@@ -7,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ParticipantsListPage extends StatefulWidget {
-  static String tag = '/EGProfileScreen';
   final int idEquip;
   const ParticipantsListPage({
-    Key? key,
     required this.idEquip
-  }) : super(key: key);
+  }) : super();
 
   @override
   ParticipantsListPageState createState() => ParticipantsListPageState(idEquip);
@@ -132,14 +131,14 @@ class ParticipantsListPageState extends State<ParticipantsListPage> {
                           ),
                           child: ListTile(
                             contentPadding: EdgeInsets.all(16),
-                            title: Text(snapshot.data![index]["name"],
+                            title: Text(snapshot.data![index]["nom"],
                                 style: TextStyle(fontSize: 20,)),
                             trailing: IconButton(
                               icon: Icon(Icons.arrow_forward),
                               onPressed: () {
                                 Navigator.of(context).push(
                                     MaterialPageRoute(builder: (context) =>
-                                        PerfilNen())
+                                        PerfilNen(idParticipant: snapshot.data![index]["id"]))
                                 );
                               },
                             ),

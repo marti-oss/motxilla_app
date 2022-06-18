@@ -13,59 +13,26 @@ class PerfilMonitor extends StatefulWidget{
 }
 
 
-String token = '';
-String nom = '';
-String cognom1 = '';
-String cognom2 = '';
-int? llicencia = null;
-String targetaSanitaria = '';
-String email = '';
-String dni = '';
-
-
-
 class PerfilMonitorState extends State<PerfilMonitor> {
+  late Future<Map<String,dynamic>?> infoPersonal;
 
   @override
   void initState() {
     super.initState();
-    init();
+    infoPersonal = getInfoPersonal();
   }
 
-  init() async{
-    final storage2 = new FlutterSecureStorage();
-    token = (await storage2.read(key: 'jwt'))!;
-    getIdMonitorAutentificat().then((response) async {
-      var idMonitor = response.list![0]['id'];
-        getMonitor(idMonitor).then((resposta) async {
-          nom = resposta.data!['nom'];
-          cognom1 = resposta.data!['cognom1'];
-          cognom2 = resposta.data!['cognom2'] == null ? '': resposta.data!['cognom2'];
-          llicencia = resposta.data!['llicencia'] == null ? '': resposta.data!['llicencia'];
-          targetaSanitaria = resposta.data!['targetaSanitaria'] == null ? '': resposta.data!['targetaSanitaria'];
-          email = resposta.data!['email'];
-          dni = resposta.data!['dni'];
-        });
-      setState(() {});
-    });
+  Future<Map<String, dynamic>?> getInfoPersonal() async {
+    final storage = new FlutterSecureStorage();
+    String id = (await storage.read(key: 'idMonitor'))!;
+    final resposta = await getMonitor(int.parse(id));
+    return resposta.data;
   }
 
-  Future<Resp> getIdMonitorAutentificat() async {
-    final response = await http.get(
-      Uri.parse('https://motxilla-api.herokuapp.com/tokenid'),
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      return Resp.fromJson2(json);
-    } else {
-      throw Exception('Failed to load response');
-    }
-  }
 
   Future<Resp> getMonitor(int id) async {
+    final storage2 = new FlutterSecureStorage();
+    String token = (await storage2.read(key: 'jwt'))!;
     final response = await http.get(
         Uri.parse('https://motxilla-api.herokuapp.com/monitors/$id'),
         headers: {
@@ -171,37 +138,48 @@ class PerfilMonitorState extends State<PerfilMonitor> {
       ),
       body: Container(
         margin: EdgeInsets.only(top:20, left: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(nom +' ' +cognom1,
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold
-              )
-            ),
-            10.height,
-            Text('Les meves dades',style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-            )),
-            5.height,
-            _boxInfo("Nom",nom),
-            5.height,
-            _boxInfo("Cognoms",cognom1 + " " + cognom2),
-            5.height,
-            _boxInfo("DNI",dni),
-            5.height,
-            _boxInfo("Llicència",llicencia.toString()),
-            5.height,
-            _boxInfo("Targeta Sanitària",targetaSanitaria),
-            5.height,
-            _boxInfo("Email",email),
-            5.height,
-          ],
-        ),
+        child: FutureBuilder(
+          future: infoPersonal,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("${snapshot.data!['nom']} ${snapshot.data!['cognom1']}",
+                      style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold
+                      )
+                  ),
+                  10.height,
+                  Text('Les meves dades',style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  )),
+                  5.height,
+                  _boxInfo("Nom",snapshot.data!['nom']),
+                  5.height,
+                  _boxInfo("Cognoms","${snapshot.data!['cognom1']} ${snapshot.data!['cognom2']}"),
+                  5.height,
+                  _boxInfo("DNI",snapshot.data!['dni']),
+                  5.height,
+                  _boxInfo("Llicència",snapshot.data!['llicencia'].toString()),
+                  5.height,
+                  _boxInfo("Targeta Sanitària",snapshot.data!['targetaSanitaria']),
+                  5.height,
+                  _boxInfo("Email",snapshot.data!['email']),
+                  5.height,
+                ],
+              );
+
+            }
+            else Text('Loading...');
+            return Text('Hola');
+          })
       )
     );
 
   }
+
+
 }
