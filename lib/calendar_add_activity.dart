@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:Motxilla/Resp.dart';
+import 'package:Motxilla/guardarActivitatEquip.dart';
 import 'package:Motxilla/provider/activity_provider.dart';
 import 'package:Motxilla/utils/dates.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:http/http.dart' as http;
 
 import 'activity.dart';
 import 'calendar.dart';
@@ -19,11 +26,17 @@ class CalendarAddActivity extends StatefulWidget {
   CalendarAddActivityState createState() => CalendarAddActivityState();
 }
 
+var id;
+
 class CalendarAddActivityState extends State<CalendarAddActivity> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final  objectiveController = TextEditingController();
+  final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  bool interior = true;
+
 
 
   @override
@@ -37,13 +50,37 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
       titleController.text = activity.title;
       fromDate = activity.from;
       toDate = activity.to;
+      objectiveController.text = activity.objectiu;
+      interior = activity.interior;
+      descriptionController.text = activity.description!;
+      id =  activity.id;
     }
   }
 
-  @override
-  void dispose() {
-    titleController.dispose();
-    super.dispose();
+  Future<Resp> editarActivity(activity) async {
+      final storage = new FlutterSecureStorage();
+      String token = (await storage.read(key: 'jwt'))!;
+      var map = new Map<String,dynamic>();
+      map['dataIni'] = DateFormat('yyyy-MM-dd kk:mm').format(activity.from);
+      map['dataFi'] = DateFormat('yyyy-MM-dd kk:mm').format(activity.to);
+      map['nom'] = activity.title;
+      map['objectiu'] = activity.objectiu;
+      map['interior'] = activity.interior ? "true" : "false";
+      map['descripcio'] = activity.description;
+      int id = activity.id;
+      final response = await http.put(
+        Uri.parse('https://motxilla-api.herokuapp.com/activitatsprogramades/${id}'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+        body: map,
+      );
+      if (response.statusCode == 200){
+        return Resp.fromJson(jsonDecode(response.body));
+      }
+      else {
+        throw Exception('Failed to load response');
+      }
   }
 
   @override
@@ -61,6 +98,26 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
                 )
             )
         ),
+        actions: [
+          IconButton(
+              icon: (widget.activity != null) ? Icon(Icons.save) : Icon(Icons.arrow_forward),
+              tooltip: "Guardar" ,
+              onPressed: () async {
+                Activity activity = await createActivity();
+                if(widget.activity != null){ //editar
+                  editarActivity(activity);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Calendar())
+                  );
+                }
+                else { //nou
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => GuardarActivitatEquip(activity: activity))
+                  );
+                }
+              }
+          )
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(12),
@@ -74,6 +131,9 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
                 buildDateTimePickers(),
                 SizedBox(height: 12),
                 buildObjective(),
+                SizedBox(height: 12),
+                buildSwitch(),
+                SizedBox(height: 12),
                 buildDescripcio()
 
 
@@ -81,14 +141,6 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
           )
         )
 
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: widget.activity != null ? Icon(Icons.check,color: Colors.white) : Icon(Icons.add, color: Colors.white),
-        backgroundColor: Color.fromRGBO(182, 218, 7, 0.658 ),
-        onPressed: () {
-          saveForm();
-          Navigator.of(context).pop();
-        },
       ),
     );
   }
@@ -104,6 +156,7 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
       validator: (title) => title != null && title.isEmpty ? 'Títol no pot se buit' : null,
     );
   }
+
   Widget buildObjective() {
     return TextFormField(
       style: TextStyle(fontSize: 24),
@@ -112,8 +165,25 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
           hintText: 'Afegir Objectiu'
       ),
       onFieldSubmitted: (_) {},
-      controller: titleController,
-      validator: (title) => title != null && title.isEmpty ? 'Títol no pot se buit' : null,
+      controller: objectiveController,
+      validator: (objective) => objective != null && objective.isEmpty ? 'Objectiu no pot se buit' : null,
+    );
+  }
+
+  Widget buildSwitch() {
+    return Row(
+      children: [
+        Text('Interior: ',
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+            )
+        ),
+        Switch.adaptive(
+            value: interior,
+            onChanged: (value) => setState(()  => interior = value)
+        ),
+      ],
     );
   }
 
@@ -125,8 +195,8 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
           hintText: 'Afegir Descripcio'
       ),
       onFieldSubmitted: (_) {},
-      controller: titleController,
-      validator: (title) => title != null && title.isEmpty ? 'Títol no pot se buit' : null,
+      controller: descriptionController,
+      //validator: (description) => description != null && title.isEmpty ? 'Títol no pot se buit' : null,
     );
   }
 
@@ -217,7 +287,7 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
     if (date == null) return;
 
     if (date.isAfter(toDate)) {
-      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate = date.add(Duration(hours: 2));//DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() {
       fromDate = date;
@@ -227,6 +297,10 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
   Future pickToDateTime({required bool pickDate}) async {
     final date = await pickDateTime(toDate, pickDate: pickDate,firstDate: pickDate ? fromDate : null);
     if (date == null) return;
+
+    if (date.isBefore(fromDate)){
+      fromDate = date.subtract(Duration(hours:2));
+    }
 
     setState(() {
       toDate = date;
@@ -253,38 +327,28 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
             context: context,
             initialTime: TimeOfDay.fromDateTime(initialDate));
         if (timeOfDay == null) return null;
-        final date = DateTime(initialDate.year, initialDate.month, initialDate.day, initialDate.hour, initialDate.minute);
+        final date = DateTime(initialDate.year, initialDate.month, initialDate.day, 0, 0);
         final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
-
         return date.add(time);
       }
   }
 
-  Future saveForm() async{
+  Future<Activity> createActivity() async{
     final isValid = _formKey.currentState!.validate();
 
     if (isValid){
       final activity = Activity(
-          id:1,
+          id: id,
           title: titleController.text,
-          objectiu: 'objectiu',
+          objectiu: objectiveController.text,
           interior: true,
-          description: 'description',
+          description: descriptionController.text,
           from: fromDate,
-          to: toDate,
-          isAllDay: false);
-
-      final isEditing = widget.activity != null;
-      final provider = Provider.of<ActivityProvider>(context, listen: false);
-      if (isEditing) {
-        provider.editActivity(activity, widget.activity!);
-
-      } else {
-        provider.addActivity(activity);
-      }
+          to: toDate);
+      return activity;
     }
-
+    return Activity(id:-1,objectiu:'',interior:false,description: '', from:DateTime.now(), to:DateTime.now(), title: '');
   }
-  
+
 }
 

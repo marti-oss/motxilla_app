@@ -9,7 +9,6 @@ class Activity {
   final DateTime from;
   final DateTime to;
   final backgroundColor;
-  final bool isAllDay;
 
   const Activity({
     required this.id,
@@ -20,6 +19,5 @@ class Activity {
     required this.from,
     required this.to,
     this.backgroundColor = Colors.lightGreen,
-    this.isAllDay= false,
   });
 }

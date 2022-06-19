@@ -40,7 +40,6 @@ class ListPageState extends State<ListPage> {
     final respuesta = await getEquips();
     categories = Future.value(respuesta.list!);
     return categories;
-
   }
 
   Future<Resp> getEquips() async {

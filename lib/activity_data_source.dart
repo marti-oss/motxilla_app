@@ -22,7 +22,4 @@ class ActivityDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) => getActivity(index).backgroundColor;
 
-  @override
-  bool isAllDay(int index) => getActivity(index).isAllDay;
-
 }

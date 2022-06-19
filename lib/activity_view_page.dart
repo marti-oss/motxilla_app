@@ -34,7 +34,6 @@ class ActivityViewPageState extends State<ActivityViewPage>{
   Future<Resp> eliminarActivitat(id) async{
     final storage = new FlutterSecureStorage();
     String token = (await storage.read(key: 'jwt'))!;
-    print("https://motxilla-api.herokuapp.com/activitatsprogramades/${id}");
     final response = await http.delete(
         Uri.parse("https://motxilla-api.herokuapp.com/activitatsprogramades/${id}"),
         headers: {
@@ -157,14 +156,6 @@ class ActivityViewPageState extends State<ActivityViewPage>{
               )
             ],
           ),
-
-          Text(
-            activity.description!,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          )
         ],
       ),
     );
@@ -172,9 +163,9 @@ class ActivityViewPageState extends State<ActivityViewPage>{
   Widget buildDateTime(Activity activity){
     return Column(
       children: [
-        buildDate(activity.isAllDay ? 'Tot el dia': 'Des de: ', activity.from),
+        buildDate('Des de: ', activity.from),
       SizedBox(height: 10),
-        if (!activity.isAllDay) buildDate('Fins a: ', activity.to)
+        buildDate('Fins a: ', activity.to)
       ]
     );
   }
