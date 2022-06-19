@@ -265,7 +265,10 @@ class CalendarAddActivityState extends State<CalendarAddActivity> {
 
     if (isValid){
       final activity = Activity(
+          id:1,
           title: titleController.text,
+          objectiu: 'objectiu',
+          interior: true,
           description: 'description',
           from: fromDate,
           to: toDate,

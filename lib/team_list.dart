@@ -118,36 +118,6 @@ class ListPageState extends State<ListPage> {
             return Text(' ');
           },
         )
-      /*AnimatedList(
-            initialItemCount: categories.length,
-            itemBuilder: (context, index, animation) =>
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child: ListTile(
-                            contentPadding: EdgeInsets.all(16),
-                            title: Text(categories[index]["name"],
-                                style: TextStyle(fontSize: 20,)),
-                            trailing: IconButton(
-                              icon: Icon(Icons.arrow_forward),
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) =>
-                                        PerfilNen())
-                                );
-                              },
-                            ),
-                          )
-                      ),
-                    ]
-                )
-        )*/
     );
   }
 }

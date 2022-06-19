@@ -1,20 +1,55 @@
 
+import 'dart:convert';
+
+import 'package:Motxilla/calendar.dart';
 import 'package:Motxilla/calendar_add_activity.dart';
+import 'package:Motxilla/menu.dart';
 import 'package:Motxilla/utils/dates.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
+import 'Resp.dart';
 import 'activity.dart';
 
 bool isExpanded = false;
 
-class ActivityViewPage extends StatelessWidget {
+class ActivityViewPage extends StatefulWidget {
   final Activity activity;
-
   const ActivityViewPage({
     Key? key,
     required this.activity,
   }) : super(key: key);
+
+  @override
+  ActivityViewPageState createState() => ActivityViewPageState(activity);
+}
+
+class ActivityViewPageState extends State<ActivityViewPage>{
+  late final Activity activity;
+
+  ActivityViewPageState(this.activity);
+
+  Future<Resp> eliminarActivitat(id) async{
+    final storage = new FlutterSecureStorage();
+    String token = (await storage.read(key: 'jwt'))!;
+    print("https://motxilla-api.herokuapp.com/activitatsprogramades/${id}");
+    final response = await http.delete(
+        Uri.parse("https://motxilla-api.herokuapp.com/activitatsprogramades/${id}"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+    );
+    if (response.statusCode == 200){
+      return Resp.fromJson(jsonDecode(response.body));
+    }
+    else {
+      throw Exception('Failed to load response');
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +78,12 @@ class ActivityViewPage extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.delete),
-            tooltip: "Sortir",
+            tooltip: "Esborrar",
             onPressed: (){
-              Navigator.pushNamed(context, "login");
+              eliminarActivitat(activity.id);
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Calendar())
+              );
             },
           )
         ],
@@ -58,12 +96,70 @@ class ActivityViewPage extends StatelessWidget {
           Text(
             activity.title,
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 28,
               fontWeight: FontWeight.bold
             )
           ),
+          Row(
+            children: [
+              const Text(
+                'Objectiu: ',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold
+                )
+              ),
+              Text(
+                activity.objectiu,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                )
+              )
+            ],
+          ),
+          Row(
+            children: [
+              const Text(
+                  'Interior: ',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                  )
+              ),
+              Text(
+                activity.interior == true ? 'Sí': 'No',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text(
+                  'Descripció: ',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                  )
+              ),
+              Text(
+                  activity.description!,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                  )
+              )
+            ],
+          ),
+
           Text(
-            activity.description,
+            activity.description!,
             style: TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -78,7 +174,7 @@ class ActivityViewPage extends StatelessWidget {
       children: [
         buildDate(activity.isAllDay ? 'Tot el dia': 'Des de: ', activity.from),
       SizedBox(height: 10),
-        if (!activity.isAllDay) buildDate('To: ', activity.to)
+        if (!activity.isAllDay) buildDate('Fins a: ', activity.to)
       ]
     );
   }

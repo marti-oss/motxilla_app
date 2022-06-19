@@ -25,5 +25,4 @@ class ActivityDataSource extends CalendarDataSource {
   @override
   bool isAllDay(int index) => getActivity(index).isAllDay;
 
-
 }

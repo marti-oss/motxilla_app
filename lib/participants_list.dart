@@ -19,26 +19,6 @@ class ParticipantsListPage extends StatefulWidget {
   ParticipantsListPageState createState() => ParticipantsListPageState(idEquip);
 }
 
-List equips = [
-  {'name': 'Campaments'},
-  {'name': 'Llops'},
-  {'name': 'Formigues'},
-  {'name': 'Llangostes'},
-];
-
-List nens = [
-  {'name': 'Martí', 'group': 'Team A'},
-  {'name': 'Arnau', 'group': 'Team B'},
-  {'name': 'Show', 'group': 'Team A'},
-  {'name': 'Miranda', 'group': 'Team B'},
-  {'name': 'Julia', 'group': 'Team C'},
-  {'name': 'Jimena', 'group': 'Team C'},
-  {'name': 'p', 'group': 'Team C'},
-  {'name': 'K', 'group': 'Team C'},
-  {'name': 'G', 'group': 'Team C'},
-  {'name': 'Q', 'group': 'Team C'},
-];
-
 String token = '';
 
 
