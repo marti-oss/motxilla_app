@@ -1,6 +1,7 @@
 import 'package:Motxilla/provider/activity_provider.dart';
 import 'package:Motxilla/utils/tasksWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -38,11 +39,44 @@ class TopNavigationBar extends StatelessWidget
             icon: Icon(Icons.logout),
             tooltip: "Sortir",
             onPressed: (){
-              Navigator.pushNamed(context, "login");
+              showAlertDialog(context);
             },
           )
         ]
     );
+  }
 
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text('Sí'),
+      onPressed: () async {
+        final storage = new FlutterSecureStorage();
+        await storage.deleteAll();
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'login', (Route<dynamic> route) => false);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('No'),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content:
+      Text('Segur?'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

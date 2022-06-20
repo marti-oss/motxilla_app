@@ -122,7 +122,7 @@ class PerfilMonitorState extends State<PerfilMonitor> {
             icon: Icon(Icons.logout),
             tooltip: "Sortir",
             onPressed: (){
-              Navigator.pushNamed(context, "login");
+              showAlertDialog(context);
             },
           ),
           IconButton(
@@ -178,8 +178,39 @@ class PerfilMonitorState extends State<PerfilMonitor> {
           })
       )
     );
-
   }
 
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text('Sí'),
+      onPressed: () async {
+        final storage = new FlutterSecureStorage();
+        await storage.deleteAll();
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'login', (Route<dynamic> route) => false);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('No'),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
 
+    AlertDialog alert = AlertDialog(
+      content:
+      Text('Segur?'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

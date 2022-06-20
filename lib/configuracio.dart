@@ -176,9 +176,7 @@ class ConfiguracioState extends State<Configuracio> {
                     ),
                     icon: Icon(Icons.exit_to_app_rounded, size: 18),
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context)=> Login())
-                      );
+                      showAlertDialog(context);
                     },
                   )
               ).paddingTop(10),
@@ -186,6 +184,40 @@ class ConfiguracioState extends State<Configuracio> {
           ).paddingAll(16),
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text('Sí'),
+      onPressed: () async {
+        final storage = new FlutterSecureStorage();
+        await storage.deleteAll();
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'login', (Route<dynamic> route) => false);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text('No'),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content:
+      Text('Segur?'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

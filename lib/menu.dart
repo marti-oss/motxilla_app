@@ -28,7 +28,7 @@ class MenuState extends State<Menu> {
     return
       Container(
         margin: const EdgeInsets.only(top: 20,left: 20),
-        child: const Text("Hola Martí",
+        child: const Text("Benvingut/da",
             style: TextStyle(
               fontSize: 36.0,
               fontWeight: FontWeight.bold,

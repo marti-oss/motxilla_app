@@ -215,56 +215,6 @@ Widget _boxInfo(field, info) {
         ),
       ),
     )
-
     ],
   );
-    /*return Container(
-      child: Row(
-          children: [
-            Flexible(
-              child:Container(
-                height: 50,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 2,
-                  vertical: 2,
-                ),
-
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(182, 218, 7, 0.658 ),
-                  borderRadius:BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                  ),
-                ),
-                child: Row(children: [
-                  SizedBox(width: 2),
-                  Expanded(child: Text(field)),
-                ]
-                ),
-              ),
-            ),
-
-            Flexible(
-              child:Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 2,
-                  vertical: 2,
-                ),
-
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[50],
-                  borderRadius:BorderRadius.only(
-                    topRight: Radius.circular(5),
-                    bottomRight: Radius.circular(5),
-                  ),
-                ),
-                child: Row(children: [
-                  SizedBox(width: 2),
-                  Expanded(child: Text(info)),
-                ]
-                ),
-              ),
-            ),
-          ]),
-    );*/
 }
