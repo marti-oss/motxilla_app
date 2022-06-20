@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Motxilla/Resp.dart';
+import 'package:Motxilla/activitats_list.dart';
 import 'package:Motxilla/menu.dart';
 import 'package:Motxilla/perfilMonitor.dart';
 import 'package:Motxilla/provider/activity_provider.dart';
@@ -55,8 +56,8 @@ class MyApp extends StatelessWidget {
             'barra': (BuildContext context) => Barra(),
             'calendar': (BuildContext context) => Calendar(),
             'listequip': (BuildContext context) => ListPage(),
-            //'enviarEmail': (BuildContext context) => EmailPage("hola"),
-            'perfilMonitor': (BuildContext context) => PerfilMonitor()
+            'perfilMonitor': (BuildContext context) => PerfilMonitor(),
+            'llistaActivitats': (BuildContext context) => ActivitatsList()
           },
         ),
       )

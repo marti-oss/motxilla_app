@@ -11,12 +11,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ParticipantsListPage extends StatefulWidget {
   final int idEquip;
+  final String nom;
   const ParticipantsListPage({
-    required this.idEquip
+    required this.idEquip,
+    required this.nom
   }) : super();
 
   @override
-  ParticipantsListPageState createState() => ParticipantsListPageState(idEquip);
+  ParticipantsListPageState createState() => ParticipantsListPageState(idEquip, nom);
 }
 
 String token = '';
@@ -24,9 +26,10 @@ String token = '';
 
 class ParticipantsListPageState extends State<ParticipantsListPage> {
   late final int idEquip;
+  late final String nom;
   late Future<List> llistat;
 
-  ParticipantsListPageState(this.idEquip);
+  ParticipantsListPageState(this.idEquip, this.nom);
 
 
   @override
@@ -89,7 +92,7 @@ class ParticipantsListPageState extends State<ParticipantsListPage> {
               tooltip: "Enviar missatge als responsables" ,
               onPressed: () => Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => EmailPage(idEquip)
+                  builder: (context) => EmailPage(idEquip,nom)
                 )
               )
             )
