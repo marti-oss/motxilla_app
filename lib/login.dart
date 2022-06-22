@@ -126,7 +126,7 @@ class LoginState extends State<Login> {
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Name',
+                                hintText: 'Correu electrònic',
                                 hintStyle: secondaryTextStyle(size:16),
                               ) ,
                             ).paddingOnly(left: 8,top:2),
@@ -159,7 +159,7 @@ class LoginState extends State<Login> {
                                       color: Color(0x683210)),
                                 ),
                                 border: InputBorder.none,
-                                hintText: 'Password',
+                                hintText: 'Contrasenya',
                                 hintStyle: secondaryTextStyle(size: 16),
                               ),
                             ).paddingOnly(left: 8, top: 2),

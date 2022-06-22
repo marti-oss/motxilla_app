@@ -93,20 +93,5 @@ class CalendarWidgetState extends State<CalendarWidget> {
           }),
       )
     );
-/*
-    return SfCalendar(
-      firstDayOfWeek: 1,
-      dataSource: ActivityDataSource(activities),
-      view: CalendarView.month,
-      initialSelectedDate:  DateTime.now(),
-      onLongPress: (details) {
-        final provider = Provider.of<ActivityProvider>(context,listen: false);
-        provider.setDate(details.date!);
-        showModalBottomSheet(
-            context: context,
-            builder: (context) => TasksWidget());
-      }
-    );
-    */
   }
 }

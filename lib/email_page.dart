@@ -100,7 +100,7 @@ class EmailPageState extends State<EmailPage> {
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Asumpte',
+                  hintText: 'Assumpte',
                   hintStyle: secondaryTextStyle(size:16),
                 ) ,
                 onChanged: (newValue) {
